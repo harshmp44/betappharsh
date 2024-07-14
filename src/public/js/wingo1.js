@@ -1559,7 +1559,8 @@ window.onload = function() {
       var distance = countDownDate - now;
       var seconds1 = Math.floor((distance % (1000 * 60)) / 10000);
       var seconds2 = Math.floor(((distance % (1000 * 60)) / 1000) % 10);
-      if (seconds1 == 0 && seconds2 <= 5) {
+      console.log('distance', seconds1, seconds2)
+      if (seconds1 <= 2 && seconds2 <= 10) {
         $(".van-overlay").fadeOut();
         $(".popup-join").css("transform", "translateY(600px)");
         $(".betting-mark .amount-box .li, .multiple-box .li").css({

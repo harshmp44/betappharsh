@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .rewards-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 25px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .rewards-progress {
+            height: 30px;
+            width: 0;
+            background-color: #4caf50;
+            transition: width 0.5s;
+        }
+
+        .rewards-info {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .claim-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .claim-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="cards-container" id="cards-container">
+        <!-- Reward cards will be inserted here by JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cardsContainer = document.getElementById("cards-container");
+
+            // Example data
+            const rewards = [
+                { points: 70, maxPoints: 100 },
+                { points: 50, maxPoints: 100 },
+                { points: 90, maxPoints: 100 },
+            ];
+
+            rewards.forEach((reward, index) => {
+                // Create card element
+                const card = document.createElement("div");
+                card.className = "card";
+
+                // Create rewards bar
+                const rewardsBar = document.createElement("div");
+                rewardsBar.className = "rewards-bar";
+
+                const rewardsProgress = document.createElement("div");
+                rewardsProgress.className = "rewards-progress";
+                const percentage = (reward.points / reward.maxPoints) * 100;
+                rewardsProgress.style.width = percentage + "%";
+
+                rewardsBar.appendChild(rewardsProgress);
+                card.appendChild(rewardsBar);
+
+                // Create rewards info
+                const rewardsInfo = document.createElement("div");
+                rewardsInfo.className = "rewards-info";
+                rewardsInfo.textContent = `${reward.points}/${reward.maxPoints} Points`;
+                card.appendChild(rewardsInfo);
+
+                // Create claim button
+                const claimButton = document.createElement("button");
+                claimButton.className = "claim-button";
+                claimButton.textContent = "Claim";
+                if (reward.points < reward.maxPoints) {
+                    claimButton.disabled = true;
+                }
+
+                card.appendChild(claimButton);
+                cardsContainer.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>

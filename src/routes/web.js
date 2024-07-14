@@ -222,6 +222,13 @@ const initWebRouter = (app) => {
     userController.changePassword
   ); // get info account
 
+
+// for historuv view
+
+router.get("/referralDetails", userController.referralDetails);
+
+router.get("/rewards", userController.rewards);
+
   // bet wingo
   router.post(
     "/api/webapi/action/join",
@@ -303,6 +310,14 @@ const initWebRouter = (app) => {
     middlewareController,
     userController.listRecharge
   ); // register
+
+
+  router.get(
+    "/api/webapi/betstats",
+    middlewareController,
+    userController.listBatstat
+  ); // register
+
   router.get(
     "/api/webapi/withdraw/list",
     middlewareController,
@@ -338,6 +353,13 @@ const initWebRouter = (app) => {
     middlewareController,
     userController.transferHistory
   ); //
+
+  router.get(
+    "/api/webapi/referral_history",
+    middlewareController,
+    userController.referral_history
+  ); //
+
   router.get(
     "/api/webapi/confirm_recharge_usdt",
     middlewareController,
@@ -492,6 +514,15 @@ const initWebRouter = (app) => {
     adminController.middlewareAdminController,
     adminController.adminPage
   ); // get info account
+
+  router.get(
+    "/admin/manager/betDetails",
+    // adminController.middlewareAdminController,
+    adminController.betDetails
+  ); // get info account
+
+
+
   router.get(
     "/admin/manager/index/3",
     adminController.middlewareAdminController,
@@ -679,6 +710,23 @@ const initWebRouter = (app) => {
     adminController.middlewareAdminController,
     adminController.listMember
   ); // get info account
+  router.post(
+    "/api/webapi/admin/wingoBetHistory",
+    adminController.middlewareAdminController,
+    adminController.wingoBetHistory
+  ); // get info account
+  router.post(
+    "/api/webapi/admin/fiveDBetHistory",
+    adminController.middlewareAdminController,
+    adminController.fiveDBetHistory
+  ); // get info account
+
+  router.post(
+    "/api/webapi/admin/k3BetHistory",
+    adminController.middlewareAdminController,
+    adminController.k3BetHistory
+  ); // get info account
+
   router.post(
     "/api/webapi/admin/listctv",
     adminController.middlewareAdminController,

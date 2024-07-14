@@ -11,6 +11,12 @@ const adminPage = async (req, res) => {
   return res.render("manage/index.ejs");
 };
 
+const betDetails = async (req, res) => {
+  return res.render("manage/betDetails.ejs");
+};
+
+
+
 const adminPage3 = async (req, res) => {
   return res.render("manage/a-index-bet/index3.ejs");
 };
@@ -222,6 +228,127 @@ const listMember = async (req, res) => {
     page_total: Math.ceil(total_users.length / limit),
   });
 };
+
+
+const wingoBetHistory = async (req, res) => {
+  let { pageno, limit } = req.body;
+
+  if (!pageno || !limit) {
+    return res.status(200).json({
+      code: 0,
+      msg: "No more data",
+      data: {
+        gameslist: [],
+      },
+      status: false,
+    });
+  }
+
+  if (pageno < 0 || limit < 0) {
+    return res.status(200).json({
+      code: 0,
+      msg: "No more data",
+      data: {
+        gameslist: [],
+      },
+      status: false,
+    });
+  }
+  const [users] = await connection.query(
+    `SELECT * FROM minutes_1 ORDER BY 1 DESC LIMIT ${pageno}, ${limit} `
+  );
+  const [total_users] = await connection.query(
+    `SELECT * FROM minutes_1`
+  );
+  // console.log("users>>", users);
+  return res.status(200).json({
+    message: "Success",
+    status: true,
+    datas: users,
+    page_total: Math.ceil(total_users.length / limit),
+  });
+};
+
+const fiveDBetHistory = async (req, res) => {
+  let { pageno, limit } = req.body;
+
+  if (!pageno || !limit) {
+    return res.status(200).json({
+      code: 0,
+      msg: "No more data",
+      data: {
+        gameslist: [],
+      },
+      status: false,
+    });
+  }
+
+  if (pageno < 0 || limit < 0) {
+    return res.status(200).json({
+      code: 0,
+      msg: "No more data",
+      data: {
+        gameslist: [],
+      },
+      status: false,
+    });
+  }
+  const [users] = await connection.query(
+    `SELECT * FROM result_5d ORDER BY 1 DESC LIMIT ${pageno}, ${limit} `
+  );
+  const [total_users] = await connection.query(
+    `SELECT * FROM result_5d`
+  );
+  // console.log("users>>", users);
+  return res.status(200).json({
+    message: "Success",
+    status: true,
+    datas: users,
+    page_total: Math.ceil(total_users.length / limit),
+  });
+};
+
+const k3BetHistory = async (req, res) => {
+  let { pageno, limit } = req.body;
+
+  if (!pageno || !limit) {
+    return res.status(200).json({
+      code: 0,
+      msg: "No more data",
+      data: {
+        gameslist: [],
+      },
+      status: false,
+    });
+  }
+
+  if (pageno < 0 || limit < 0) {
+    return res.status(200).json({
+      code: 0,
+      msg: "No more data",
+      data: {
+        gameslist: [],
+      },
+      status: false,
+    });
+  }
+  const [users] = await connection.query(
+    `SELECT * FROM result_k3 ORDER BY 1 DESC LIMIT ${pageno}, ${limit} `
+  );
+  const [total_users] = await connection.query(
+    `SELECT * FROM result_k3`
+  );
+  // console.log("users>>", users);
+  return res.status(200).json({
+    message: "Success",
+    status: true,
+    datas: users,
+    page_total: Math.ceil(total_users.length / limit),
+  });
+};
+
+
+
 
 const listCTV = async (req, res) => {
   let { pageno, pageto } = req.body;
@@ -2499,5 +2626,9 @@ module.exports = {
   CreatedSalary,
   getSalary,
   filteredMember,
-  getTotalEarning
+  getTotalEarning,
+  wingoBetHistory,
+  fiveDBetHistory,
+  betDetails,
+  k3BetHistory
 };

@@ -1,0 +1,29 @@
+1. All user can bet but user with lowest money win the bet. — done
+2. User profile informations not coming in left. — 
+3. Bet History in Admin Panel - done
+4. User can add direct refers. Define levels and numbers of direct refers through admin panel. With complete levels user can claim the reward amount. Claim amount will be added in main wallet.
+5. Daily fixed income - user can deposit money and maintain in wallet. We can define rule from admin panel with minimum maintain amount we need to give % amount. History to show in admin panel.
+6. With continues bet we need to give extra reward. Like continuous 4 bet we need to give 100 rs. (we will define rules in admin panel)
+7. Game statistics page ( menus page - Game statistics) — today, yesterday, week , month, total earnings - 70%
+8. Restrict withdraw method bank or used only one time. Next time support to contact.
+9. Wallet amount transfer need to check 
+10. 3 minute time increases to 30 seconds — done
+11. UPI number page ref no. - only number not Alph, and 12 digits
+12. USDT withdraw transaction hash min - 62 char 
+
+
+
+
+4. User can add direct refers. Define levels and numbers of direct refers through admin panel. With complete levels user can claim the reward amount. Claim amount will be added in main wallet.
+
+
+// 1 fetch refers of users - backend API
+-- query change - select * from user where invite= ? ,[userInfo.code]
+
+// 2 fetch level details CRUD - backend API
+-- 
+
+// 3. admin panel modify level details - UI 
+
+// 4. show user completed refers.
+

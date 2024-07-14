@@ -232,11 +232,41 @@
                       </div>
                     </div>
                     <div class="card-body">
-                      <div class="direct-chat-messages" style="min-height: 520px;">
-                        <div class="direct-chat-msg">
-                          <!---->
-                        </div>
-                      </div>
+                      <table class="table table-striped projects" id="table1">
+                        <thead>
+                          <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Phone</th>
+                            <th class="text-center">Game</th>
+                            <th class="text-center">Amount</th>
+                            <th class="text-center">Money</th>
+                            <th class="text-center">Fee</th>
+                            <th class="text-center">Winning Amount</th>
+                            <th class="text-center">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- #region -->
+                        </tbody>
+                      </table>
+                      <nav id="nav-panel" aria-label="Page navigation example" style="margin-top: 20px; display: flex; justify-content: center">
+                        <ul class="pagination table1">
+                          <li class="page-item previous" id="previous">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                          </li>
+                          <div id="numbers" style="display: flex">
+                            <li class="page-item">
+                              <a class="page-link active text-white" id="text-page"></a>
+                            </li>
+                          </div>
+                          <li class="page-item next" id="next">
+                            <a class="page-link" href="#">Next</a>
+                          </li>
+                        </ul>
+                      </nav>
+
+
+                      
                     </div>
                     <div class="card-footer"></div>
                   </div>
@@ -342,5 +372,154 @@
     });
   </script>
 </body>
+
+<script>
+
+  const Render = (datas) => {
+    // console.log('clicked');
+    let html = '';
+    console.log(datas);
+    if (datas.length === 0) {
+      html = '<tr><td colspan="7" class="text-center">No records found</td></tr>';
+    } else {
+      datas.map((data) => {
+        html += `
+      <tr class="text-center" style="">
+        <td>${data.id}</td>
+        <td>
+          <b style="color: yellow">${data.phone}</b>
+        </td>
+        <td>K3-${data.game}</td>
+        <td>
+          <b>${data.amount}</b>
+        </td>
+        <td>
+          <b>${data.money}</b>
+        </td>
+        <td>
+          <b>${data.fee}</b>
+        </td>
+        <td>
+          <b style="color: yellow">${data.get}</b>
+        </td>
+        <td class="project-actions text-center" style="min-width: 100px">
+          ${data.status == '1' ? 'Win' : 'Loss'}
+        </td>
+      </tr>`;
+  
+      });
+    }
+    $("tbody").html(html);
+  
+    $('.btn-danger').click(function (e) {
+      e.preventDefault();
+      let check = confirm("Are you sure you want to lock this account ?");
+      let id = $(this).attr('id');
+      if (check) {
+        $.ajax({
+          type: "POST",
+          url: "/api/webapi/admin/banned",
+          data: {
+            id: id,
+            type: 'close'
+          },
+          dataType: "json",
+          success: function (response) {
+            alert(response.message);
+            location.reload();
+          }
+        });
+      }
+    });
+  
+    $('.btn-info1').click(function (e) {
+      e.preventDefault();
+      let check = confirm("Are you sure you want to unlock this account ?");
+      let id = $(this).attr('id');
+      if (check) {
+        $.ajax({
+          type: "POST",
+          url: "/api/webapi/admin/banned",
+          data: {
+            id: id,
+            type: 'open'
+          },
+          dataType: "json",
+          success: function (response) {
+            alert(response.message);
+            location.reload();
+          }
+        });
+      }
+    });
+  
+  }
+  
+  let pageno = 0;
+  let limit = 10;
+  let page = 1;
+  $.ajax({
+    type: "POST",
+    url: "/api/webapi/admin/k3BetHistory",
+    data: {
+      typeid: "1",
+      pageno: pageno,
+      limit: limit,
+      language: "vi",
+    },
+    dataType: "json",
+    success: function (response) {
+      $('#text-page').text(page + ' / ' + response.page_total);
+      if (response.status === true) return Render(response.datas);
+    },
+  });
+  
+  
+  $('#next').click(function (e) {
+        pageno += limit;
+        e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "/api/webapi/admin/k3BetHistory",
+          data: {
+            typeid: "1",
+            pageno: pageno,
+            limit: limit,
+            language: "vi",
+          },
+          dataType: "json",
+          success: function (response) {
+            if (response.datas.length == 0) {
+              $('#next').addClass('block-click');
+              return pageno -= limit
+            };
+            $('#text-page').text(++page + ' / ' + response.page_total);
+            if (response.status === true) return Render(response.datas);
+          }
+        });
+      });
+  
+      $('#previous').click(function (e) {
+        e.preventDefault();
+        $('#next').removeClass('block-click');
+        pageno -= limit;
+        if (pageno < 0) return pageno = 0;
+        $.ajax({
+          type: "POST",
+          url: "/api/webapi/admin/k3BetHistory",
+          data: {
+            typeid: "1",
+            pageno: pageno,
+            limit: limit,
+            language: "vi",
+          },
+          dataType: "json",
+          success: function (response) {
+            $('#text-page').text(--page + ' / ' + response.page_total);
+            if (response.status === true) return Render(response.datas);
+          }
+        });
+      });
+   </script>
 
 </html>

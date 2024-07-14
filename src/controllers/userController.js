@@ -1388,6 +1388,54 @@ const transferHistory = async (req, res) => {
         });
     }
 }
+
+const referralDetails = async (req, res) => {
+    return res.render("manage/referralDetails.ejs");
+  };
+  
+
+  const rewards = async (req, res) => {
+    return res.render("reward/reward.ejs");
+  };
+
+
+
+const referral_history = async (req, res) => {
+    let auth = req.cookies.auth;
+    if (!auth) {
+        return res.status(200).json({
+            message: 'Failed',
+            status: false,
+            timeStamp: timeNow,
+        });
+    }
+
+    const [user] = await connection.query('SELECT `phone`, `code`,`invite`, `roses_f`, `roses_f1`, `roses_today` FROM users WHERE `token` = ? ', [auth]);
+    //const [level] = await connection.query('SELECT * FROM level');
+
+    if (!user) {
+        return res.status(200).json({
+            message: 'Failed',
+            status: false,
+            timeStamp: timeNow,
+        });
+    }
+
+    let userInfo = user[0];
+
+    // Directly referred level-1 users
+    console.log(user)   
+    const [ref_list] = await connection.query('SELECT `phone`, `code`,`invite`, `time` FROM users WHERE `invite` = ? ', [userInfo.code]);
+
+    return res.status(200).json({
+        message: 'Receive success',
+        datas: ref_list,
+        status: true,
+        timeStamp: timeNow,
+    });
+}
+
+
 const recharge2 = async (req, res) => {
     let auth = req.cookies.auth;
     let money = req.body.money;
@@ -1453,6 +1501,35 @@ const listRecharge = async (req, res) => {
         timeStamp: timeNow,
     });
 }
+
+const listBatstat = async (req, res) => {
+    let auth = req.cookies.auth;
+    if (!auth) {
+        return res.status(200).json({
+            message: 'Failed',
+            status: false,
+            timeStamp: timeNow,
+        })
+    }
+    const [user] = await connection.query('SELECT `phone`, `code`,`invite` FROM users WHERE `token` = ? ', [auth]);
+    let userInfo = user[0];
+    if (!user) {
+        return res.status(200).json({
+            message: 'Failed',
+            status: false,
+            timeStamp: timeNow,
+        });
+    };
+    //console.log(user)
+    const [batData] = await connection.query(`select * from (SELECT phone, money, get, status, from_unixtime(time/1000) as bet_date, 'wingo' as game FROM minutes_1 UNION SELECT phone, price as money, get, status, from_unixtime(time/1000) as bet_daten, '5d' as game  FROM result_5d UNION SELECT phone, price as money, get, status, from_unixtime(time/1000) as bet_date, 'k3' as game FROM result_k3) a where phone = ? order by bet_date desc`, [userInfo.phone]);
+    return res.status(200).json({
+        message: 'Receive success',
+        datas: batData,
+        status: true,
+        timeStamp: timeNow,
+    });
+}
+
 
 const search = async (req, res) => {
     let auth = req.cookies.auth;
@@ -1928,5 +2005,9 @@ module.exports = {
     updateRecharge,
     confirmRecharge,
     cancelRecharge,
-    confirmUSDTRecharge
+    confirmUSDTRecharge,
+    listBatstat,
+    referral_history,
+    referralDetails,
+    rewards
 }

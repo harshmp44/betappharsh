@@ -32,29 +32,6 @@
             display: block;
             margin: 0 auto;
         }
-
-        .btn1 {
-            width: 3.33333rem;
-            height: 1.04rem;
-            color: #292d2e;
-            font-size: .32rem;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 1.04rem;
-            border-radius: 0.26667rem;
-            text-align: center;
-            display: -webkit-inline-box;
-            display: -webkit-inline-flex;
-            display: inline-flex;
-            -webkit-box-align: center;
-            -webkit-align-items: center;
-            align-items: center;
-            -webkit-box-pack: center;
-            -webkit-justify-content: center;
-            justify-content: center;
-            background: -webkit-linear-gradient(top, #F6E3A3 0%, #D2A753 100%);
-            background: linear-gradient(180deg, #F6E3A3 0%, #D2A753 100%);
-        }
     </style>
 </head>
 
@@ -76,31 +53,40 @@
                     </div>
                 </div>
             </div>
-            <div
-                style="display: flex;flex-direction: column; width: 100%; padding:10px; background-color: #3A3A3A; margin-top: 10px;">
-                
-                <div>
-                    Total Refers : <span id="total-refers">0 </span>
+            <div data-v-11ffe290="" class="check-box">
+                <div data-v-11ffe290="" class="check-header c-tc">
+                    <!-- <h4 data-v-11ffe290="" class="tit m-b-5">7 Days Recharge Rewards</h4> -->
+                    <img data-v-11ffe290="" data-v-106b99c8="" src="/images/rewardimg.jpeg" class="responsive-image">
                 </div>
-                
             </div>
-            <div id="card-data"></div>
-            <!-- <div
-            id="card-content"
-                style="display: flex; border-radius: 18px; flex-direction: column; width: 100%; padding:10px; background-color: #3A3A3A; margin-top: 10px;">
-                <div style="padding: 10px; background-color: green;width: 50%;border-radius: 0px 0px 20px 0px;">
-                    Bonus
-                </div>
-                <div style="display: flex;margin-top: 10px;justify-content:space-between">
-                    No. of Refers: <span>10 </span>
-                </div>
-                <div style="display: flex;margin-top: 10px;justify-content:space-between">
-                    Amount for Claim: <span>1000 </span>
-                </div>
-                <div style="margin-top: 10px; text-align: right;">
-                <button class="btn1">Claim</button>
+            <div data-v-11ffe290="" class="c-row c-row-middle-center p-l-20 p-r-20">
+                <!-- <div data-v-11ffe290="">
+                    <p data-v-11ffe290="" class="txt" onclick="location.href='/checkDes'">Rule</p>
+                    <p data-v-11ffe290="" class="txt" onclick="location.href='/checkRecord'">Registration Profile</p>
+                </div> -->
             </div>
-            </div> -->
+            <div data-v-11ffe290="" class="list c-row c-flex-warp"></div>
+            <div data-v-7692a079="" data-v-432e6ed0="" class="Loading c-row c-row-middle-center">
+                <div data-v-7692a079="" class="van-loading van-loading--circular">
+                    <span data-v-7692a079="" class="van-loading__spinner van-loading__spinner--circular"
+                        style="width: auto; height: auto; -webkit-animation-duration: 1s; animation-duration: 1s;">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200"
+                            width="200" height="200" preserveAspectRatio="xMidYMid meet"
+                            style="width: 100%;height: 100%;transform: translate3d(0px, 0px, 0px);content-visibility: visible;">
+                            <g transform="matrix(-0.5984085202217102,0.8011911511421204,-0.8011911511421204,-0.5984085202217102,239.9599609375,79.72173309326172)"
+                                style="display: block;">
+                                <image width="200px" height="200px" preserveAspectRatio="xMidYMid slice"
+                                    xlink:href="/index_files/loadingspinner.png"></image>
+                            </g>
+                            <g transform="matrix(0.9408400058746338,0,0,0.9408400058746338,20.969436645507812,79.30152130126953)"
+                                style="display: block;">
+                                <image width="168px" height="44px" preserveAspectRatio="xMidYMid slice"
+                                    xlink:href="/index_files/h5setting_202401100608011fs2.png"></image>
+                            </g>
+                        </svg>
+                    </span>
+                </div>
+            </div>
             <%- include('../nav') -%>
         </div>
     </div>
@@ -195,51 +181,6 @@
     <script>
         $(window).on('load', function () {
             $('.Loading').fadeOut(0);
-        });
-    </script>
-    <script>
-
-function loads(datas) {
-            let html = datas.map((data) => {
-                return `
-                <div
-            id="card-content"
-                style="display: flex; border-radius: 18px; flex-direction: column; width: 100%; padding:10px; background-color: #3A3A3A; margin-top: 10px;">
-                <div style="padding: 10px; background-color: green;width: 50%;border-radius: 0px 0px 20px 0px;">
-                    Bonus
-                </div>
-                <div style="display: flex;margin-top: 10px;justify-content:space-between">
-                    No. of Refers: <span>${data.length} </span>
-                </div>
-                <div style="display: flex;margin-top: 10px;justify-content:space-between">
-                    Amount for Claim: <span> </span>
-                </div>
-                <div style="margin-top: 10px; text-align: right;">
-                <button class="btn1">Claim</button>
-            </div>
-                    `;
-            })
-            $('#card-data').html(html);
-            $('.number').click(function (e) {
-                e.preventDefault();
-                let text = $(this).text().trim();
-                navigator.clipboard.writeText(text);
-                $(this).addClass('block-click');
-                alertMess('Copy successful', $(this));
-            });
-            $('#total-refers').text(datas.length.toString());
-        }
-
-        $.ajax({
-            type: "GET",
-            url: "/api/webapi/referral_history",
-            data: {
-                },
-            dataType: "json",
-            success: function (response) {
-                if (response.datas.length == 0) return;
-                loads(response.datas);
-            }
         });
     </script>
 </body>
